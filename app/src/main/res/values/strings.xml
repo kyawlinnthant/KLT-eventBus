@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">kltEventBus</string>
+    <string name="one">One</string>
+    <string name="two">Two</string>
+    <string name="add_to_two">Add to two</string>
+    <string name="add_to_one">Add to one</string>
+    <string name="clear_one">Clear One</string>
+    <string name="clear_two">Clear Two</string>
+</resources>
