@@ -1,47 +1,66 @@
 package com.example.klteventbus
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor() : ViewModel() {
 
-    private var _countOne = MutableLiveData(0)
-    val countOne: LiveData<Int> = _countOne
 
-    private var _countTwo = MutableLiveData(0)
-    val countTwo: LiveData<Int> = _countTwo
+    private lateinit var _countOne: Flow<Int>
+    val countOne: Flow<Int> get() = _countOne
+
+    private lateinit var _countTwo: Flow<Int>
+    val countTwo: Flow<Int> get() = _countTwo
+
+    init {
+        setInitialOne()
+        setInitialTwo()
+    }
+
+    private fun setInitialOne() {
+        viewModelScope.launch {
+            _countOne = flow {
+                emit(0)
+            }
+
+        }
+    }
+
+    private fun setInitialTwo() {
+        _countTwo = flow {
+            emit(0)
+        }
+    }
+
 
     fun increaseCountOne() {
         viewModelScope.launch {
-            _countOne.value = _countOne.value?.plus(1)
+            _countOne = flow {
+                emit( 1)
+            }
         }
     }
 
     fun clearCountOne() {
-        viewModelScope.launch {
-            _countOne.value = 0
-        }
+        setInitialOne()
     }
 
     fun increaseCountTwo() {
         viewModelScope.launch {
-            _countTwo.value = _countTwo.value?.plus(1)
+            _countTwo = flow {
+                emit(+1)
+            }
         }
     }
 
     fun clearCountTwo() {
-        viewModelScope.launch {
-            _countTwo.value = 0
-        }
+        setInitialTwo()
     }
 
 }
