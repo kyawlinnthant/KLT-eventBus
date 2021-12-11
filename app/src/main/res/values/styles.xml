@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_two</item>
+        <item name="postSplashScreenTheme">@style/Theme.KltEventBus</item>
+    </style>
+</resources>

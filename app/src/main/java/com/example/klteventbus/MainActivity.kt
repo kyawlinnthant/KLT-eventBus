@@ -2,14 +2,18 @@ package com.example.klteventbus
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val navFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
@@ -35,8 +39,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         setupNavigation()
     }
 
@@ -45,35 +49,38 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    fun addBadge(count: Int, type: String) {
+    fun checkBadge(count: Int, type: String) {
 
         when (type) {
             NAV_ITEM_TYPE_ONE -> {
 
+                if (count == 0) {
+                    navView.removeBadge(R.id.dest_one)
+                    return
+                }
                 navView.getOrCreateBadge(R.id.dest_one).apply {
-                    number += count
+                    number = count
                     isVisible = true
                 }
 
+
             }
             NAV_ITEM_TYPE_TWO -> {
+
+                if (count == 0) {
+                    navView.removeBadge(R.id.dest_two)
+                    return
+                }
+
                 navView.getOrCreateBadge(R.id.dest_two).apply {
-                    number += count
+                    number = count
                     isVisible = true
                 }
+
+
             }
 
         }
     }
 
-    fun clearBadge(type: String) {
-        when (type) {
-            NAV_ITEM_TYPE_ONE -> {
-                navView.removeBadge(R.id.dest_one)
-            }
-            NAV_ITEM_TYPE_TWO -> {
-                navView.removeBadge(R.id.dest_two)
-            }
-        }
-    }
 }
